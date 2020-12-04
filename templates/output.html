@@ -1,0 +1,34 @@
+{% extends "home.html" %}
+{% block content %}
+<br>
+{% if length > 0 %}
+<table style="width:100%">
+    {% for i in range(0,length) %}
+    <tr>
+      <th>Tweets</th>
+      <th>Post_ID</th>
+      <th>User_ID</th>
+      <th>Prediction</th>
+      <th>Post At</th>
+    </tr>
+    <tr>
+      <td>{{output_result[i][4]}}</td>
+      <td>{{output_result[i][8]}}</td>
+      <td>{{output_result[i][9]}}</td>
+      <td>{{output_result[i][3]}}</td>
+      <td>{{output_result[i][10]}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</br>
+{% else %}
+<table style="width:100%">
+    <tr>
+      <th>Tweets</th>
+      <th>Post_ID</th>
+      <th>User_ID</th>
+      <th>Prediction</th>
+      <th>Post At</th>
+    </tr>
+{% endif %}
+{% endblock %}

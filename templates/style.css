@@ -1,0 +1,22 @@
+/* body{
+    justify-content: center;
+    align-items: center;
+} */
+
+.twitter-clr{
+    color: white;
+    background-color: #1da1f2;
+    border: none;
+}
+.twitter-clr-option{
+    color: black;
+    background-color: #fff;
+}
+.form-size{
+    width: 80%;
+    margin-left: 8%;
+}
+.headline{
+    text-align: center;
+    margin: 10%;
+}
