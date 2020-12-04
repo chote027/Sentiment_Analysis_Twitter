@@ -6,11 +6,11 @@
   <thead>
     {% for i in range(0,length) %}
     <tr>
-      <th scope = "col">Tweets</th>
-      <th scope = "col">Post_ID</th>
-      <th scope = "col">User_ID</th>
-      <th scope = "col">Prediction</th>
-      <th scope = "col">Post At</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Tweets</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Post_ID</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">User_ID</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Prediction</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Post At</th>
     </tr>
   </thead>
   <tbody>
@@ -21,18 +21,24 @@
       <td>{{output_result[i][3]}}</td>
       <td>{{output_result[i][10]}}</td>
     </tr>
-    {% endfor %}
   </tbody>
+  {% endfor %}
   </table>
 </br>
 {% else %}
 <table class="table table-bordered" style="width:100%">
     <tr>
-      <th scope = "col">Tweets</th>
-      <th scope = "col">Post_ID</th>
-      <th scope = "col">User_ID</th>
-      <th scope = "col">Prediction</th>
-      <th scope = "col">Post At</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Tweets</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Post_ID</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">User_ID</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Prediction</th>
+      <th style="background-color: #1da1f2; color: white;" scope = "col">Post At</th>
     </tr>
 {% endif %}
 {% endblock %}
+
+<style>
+  .th {
+    background-color: #1da1f2; color: white;
+  }
+</style>

@@ -8,6 +8,17 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 </head>
+<ul class="nav justify-content-center nav-pills nav-justified">
+    <li class="nav-item">
+        <a class="nav-link" href="/predictbyhashtag">Predict By Hashtag</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/predictbyuserID">Predict By UserID</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/predictbysentence">Predict By Sentence</a>
+    </li>
+</ul>
 
 <body style="text-align: center;">
     <!-- Bootstrap -->
@@ -19,41 +30,9 @@
 
     <div class="container">
         <h1 class="headline"><i class="fab fa-twitter" style="color: #1da1f2;"></i> Twitter Thai Sentiment Analysis</h1>
-
         <div class="input-group form-size" style="justify-content: center;">
-
-            <div class="input-group-prepend">
-                <span class="input-group-text twitter-clr">Twiter Hashtag ( #__ )</span>
-            </div>
-            <form style="height: 38px;" action="{{ url_for('predictbyhashtag') }}" method="POST"
-                enctype="application/x-www-form-urlencoded;charset=TIS-620">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" style="width: 30rem; border-radius: 0%;" name="hashtag"
-                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
-                    </div>
-                </div>
-            </form>
-
-        </div>
-
-        <div style="margin: 1%;"> or </div>
-
-        <div class="input-group mb-3 form-size" style="justify-content: center;">
-            <div class="input-group-prepend">
-                <span class="input-group-text twitter-clr">Twiter ID ( @__ )</span>
-            </div>
-            <form style="height: 38px;" action="{{ url_for('predictbyid') }}" method="POST"
-                enctype="application/x-www-form-urlencoded;charset=TIS-620">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" style="width: 32.3rem; border-radius: 0%;" name="userID"
-                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
-                    </div>
-                </div>
-            </form>
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 </body>

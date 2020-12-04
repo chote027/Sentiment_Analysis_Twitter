@@ -12,6 +12,14 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
+app.config['DEBUG'] = True
+app.config['FLASK_ENV'] = 'development'
+
+app.config.update(
+    DEBUG=True,
+    FLASK_ENV='development'
+)
+
 plt.style.use('fivethirtyeight')
 
 login = pd.read_csv('key.csv')
@@ -89,7 +97,7 @@ def predictbyhashtag():
             return render_template('output.html' , output_result=result , length = len(result))
         else : 
             return render_template('output.html' , length = 0)
-    return render_template('home.html')
+    return render_template('predictByHashtag.html')
 
 @app.route('/predictbyuserID', methods=['GET','POST'])
 def predictbyid():
@@ -124,7 +132,48 @@ def predictbyid():
             return render_template('output.html' , output_result=result , length = len(result))
         else : 
             return render_template('output.html' , length = 0)
-    return render_template('home.html')
+    return render_template('predictById.html')
+
+    
+@app.route('/predictbysentence', methods=['GET','POST'])
+def predictbysentence():
+    result = ""
+    if request.method=='POST':
+        texts = request.form['texts']
+        test_input = pd.DataFrame({"texts":[texts]})
+        if test_input.shape[0] != 0 :
+            test_input["processed"] = test_input.texts.map(lambda x: "|".join(process_thai(x)))
+            test_input["wc"] = test_input.processed.map(lambda x: len(x.split("|")))
+            test_input["uwc"] = test_input.processed.map(lambda x: len(set(x.split("|"))))
+
+            tf_input = tfidf_fit.transform(test_input["texts"])
+
+            num_input = scaler_fit.transform(test_input[["wc","uwc"]].astype(float))
+
+            t_input =  np.concatenate([num_input,tf_input.toarray()],axis=1)
+
+            output_pd = pd.DataFrame(model.predict_proba(t_input))
+            output_pd.columns = model.classes_
+            output = model.predict(t_input)
+            if output == "neg":
+                result = "Negative"
+            elif output == "pos":
+                result = "Positive"
+            elif output == "neu":
+                result = "Neutral"
+            # output_pd["Prediction"] = model.predict(t_input)
+            # output_pd["Texts"] = test_input.texts
+            # output_pd["Processed"] = test_input.processed
+            # output_pd["Wc"] = test_input.wc
+            # output_pd["Uwc"] = test_input.uwc
+            # output_pd['Predict'] = output_pd['Predict'].replace({'neg':'Negative', 'pos':'Positive','neu':'Neutral'})
+            # output_pd = output_pd.rename(columns={"neg":"Negative","neu":"Neutral","pos":"Positive"})
+            # result = output_pd
+            return render_template('outputBySentence.html' , result=result)
+        else : 
+            return render_template('outputBySentence.html' , length = 0)
+    return render_template('predictBySentence.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
