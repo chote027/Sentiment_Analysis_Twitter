@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,36 +19,43 @@
 
     <div class="container">
         <h1 class="headline"><i class="fab fa-twitter" style="color: #1da1f2;"></i> Twitter Thai Sentiment Analysis</h1>
-        
-        <div class="input-group form-size">
-            <div class="col">
-                <form action="{{ url_for('predictbyhashtag') }}" method="POST"
-                    enctype="application/x-www-form-urlencoded;charset=TIS-620">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text twitter-clr">Twiter Hashtag ( #__________ )</span>
-                    </div>
-                    <input type="text" class="form-control col-md-10 mr-sm-2" name="hashtag" id="inputGroupSelect04"
-                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
-                    <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
-                </form>
+
+        <div class="input-group form-size" style="justify-content: center;">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text twitter-clr">Twiter Hashtag ( #__ )</span>
             </div>
+            <form style="height: 38px;" action="{{ url_for('predictbyhashtag') }}" method="POST"
+                enctype="application/x-www-form-urlencoded;charset=TIS-620">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" style="width: 30rem; border-radius: 0%;" name="hashtag"
+                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
+                    </div>
+                </div>
+            </form>
+
         </div>
 
         <div style="margin: 1%;"> or </div>
 
-        <div class="input-group mb-3 form-size">
-            <div class="col">
-                <form action="{{ url_for('predictbyid') }}" method="POST"
-                    enctype="application/x-www-form-urlencoded;charset=TIS-620">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text twitter-clr">Twiter ID ( @__________ )</span>
-                    </div>
-                    <input type="text" class="form-control mr-sm-2" name="userID" id="inputGroupSelect04"
-                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
-                    <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
-                </form>
+        <div class="input-group mb-3 form-size" style="justify-content: center;">
+            <div class="input-group-prepend">
+                <span class="input-group-text twitter-clr">Twiter ID ( @__ )</span>
             </div>
+            <form style="height: 38px;" action="{{ url_for('predictbyid') }}" method="POST"
+                enctype="application/x-www-form-urlencoded;charset=TIS-620">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" style="width: 32.3rem; border-radius: 0%;" name="userID"
+                        placeholder="ข้อความตัวอย่างเช่น : สวัสดี">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
+    </div>
 </body>
 
 </html>
@@ -58,21 +66,24 @@
     align-items: center;
 } */
 
-.twitter-clr{
-    color: white;
-    background-color: #1da1f2;
-    border: none;
-}
-.twitter-clr-option{
-    color: black;
-    background-color: #fff;
-}
-.form-size{
-    width: 80%;
-    margin-left: 8%;
-}
-.headline{
-    text-align: center;
-    margin: 10%;
-}
+    .twitter-clr {
+        color: white;
+        background-color: #1da1f2;
+        border: none;
+    }
+
+    .twitter-clr-option {
+        color: black;
+        background-color: #fff;
+    }
+
+    .form-size {
+        width: 80%;
+        margin-left: 8%;
+    }
+
+    .headline {
+        text-align: center;
+        margin: 10%;
+    }
 </style>
