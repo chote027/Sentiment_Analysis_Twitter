@@ -1,34 +1,38 @@
-{% extends "home.html" %}
+{% extends "layout.html" %}
 {% block content %}
 <br>
 {% if length > 0 %}
 <table style="width:100%">
+  <thead class="thead-dark"></thead>
     {% for i in range(0,length) %}
     <tr>
-      <th>Tweets</th>
-      <th>Post_ID</th>
-      <th>User_ID</th>
-      <th>Prediction</th>
-      <th>Post At</th>
+      <th scope = "col">Tweets</th>
+      <th scope = "col">Post_ID</th>
+      <th scope = "col">User_ID</th>
+      <th scope = "col">Prediction</th>
+      <th scope = "col">Post At</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
-      <td>{{output_result[i][4]}}</td>
+      <td scope="row">{{output_result[i][4]}}</td>
       <td>{{output_result[i][8]}}</td>
       <td>{{output_result[i][9]}}</td>
       <td>{{output_result[i][3]}}</td>
       <td>{{output_result[i][10]}}</td>
     </tr>
     {% endfor %}
+  </tbody>
   </table>
 </br>
 {% else %}
 <table style="width:100%">
     <tr>
-      <th>Tweets</th>
-      <th>Post_ID</th>
-      <th>User_ID</th>
-      <th>Prediction</th>
-      <th>Post At</th>
+      <th scope = "col">Tweets</th>
+      <th scope = "col">Post_ID</th>
+      <th scope = "col">User_ID</th>
+      <th scope = "col">Prediction</th>
+      <th scope = "col">Post At</th>
     </tr>
 {% endif %}
 {% endblock %}
