@@ -12,14 +12,6 @@ import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
-app.config['DEBUG'] = True
-app.config['FLASK_ENV'] = 'development'
-
-app.config.update(
-    DEBUG=True,
-    FLASK_ENV='development'
-)
-
 plt.style.use('fivethirtyeight')
 
 login = pd.read_csv('key.csv')
