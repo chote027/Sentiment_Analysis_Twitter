@@ -36,6 +36,7 @@ def getTweetFromUser(query):
                    'StatusID': [tweet.id_str for tweet in posts],
                    'UserID': [tweet.user.screen_name for tweet in posts],
                    'Createdat': [tweet.created_at for tweet in posts]})
+    df['Tweets'] = df['Tweets'].apply(cleanText)
     return df
 
 #extract 100 recent tweets from twitter hashtag
@@ -46,7 +47,17 @@ def getTweet(query):
                    'StatusID': [tweet.id_str for tweet in posts],
                    'UserID': [tweet.user.screen_name for tweet in posts],
                    'Createdat': [tweet.created_at for tweet in posts]})
+    df['Tweets'] = df['Tweets'].apply(cleanText)
     return df
+
+#create function to clean the tweets
+def cleanText(text):
+    text = re.sub(r'@[A-Za-z0-9_]+:', '', text) # remove #mentions
+    text = re.sub(r'@[A-Za-z0-9_]+', '', text) # remove #mentions
+    text = re.sub(r'#','',text) # remove hashtag
+    text = re.sub(r'RT[\s]+','', text) # remove RT
+    text = re.sub(r'https?:\/\/\S+','', text) # remove hyper link
+    return text
 
 model = joblib.load('frozen_model/sent_model.pkl')
 scaler_fit = joblib.load('frozen_model/scaler_model.pkl')
@@ -131,7 +142,8 @@ def predictbyid():
 def predictbysentence():
     result = ""
     if request.method=='POST':
-        texts = request.form['texts']
+        text = request.form['texts']
+        texts = cleanText(text)
         test_input = pd.DataFrame({"texts":[texts]})
         if test_input.shape[0] != 0 :
             test_input["processed"] = test_input.texts.map(lambda x: "|".join(process_thai(x)))
