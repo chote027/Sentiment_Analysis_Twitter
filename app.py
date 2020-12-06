@@ -9,8 +9,10 @@ import tweepy
 import json
 import re
 import matplotlib.pyplot as plt
+from flask_frozen import Freezer
 
 app = Flask(__name__)
+freezer = Freezer(app)
 
 plt.style.use('fivethirtyeight')
 
