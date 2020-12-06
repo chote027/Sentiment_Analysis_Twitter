@@ -30,11 +30,16 @@ authenticate.set_access_token(access_token, access_token_secret)
 # create api obj
 api = tweepy.API(authenticate, wait_on_rate_limit = True)
 
+# declare model
+model = joblib.load('frozen_model/sent_model.pkl')
+scaler_fit = joblib.load('frozen_model/scaler_model.pkl')
+tfidf_fit = joblib.load('frozen_model/tfidf_model.pkl')
+
 # create function to extract 100 recent tweets from twitter user timelime
 def getTweetFromUser(query):
     # get tweets
     posts = api.user_timeline(screen_name=query, count=100, result_type='recent', lang='th', tweet_mode='extended')
-    # create dataframe
+    # create and put data into dataframe
     df = pd.DataFrame({'Tweets': [tweet.full_text for tweet in posts],
                    'StatusID': [tweet.id_str for tweet in posts],
                    'UserID': [tweet.user.screen_name for tweet in posts],
@@ -47,7 +52,7 @@ def getTweetFromUser(query):
 def getTweet(query):
     # get tweets
     posts = api.search(q=query, count=100, result_type='recent', lang='th', tweet_mode='extended')
-    # create dataframe
+    # create and put data into dataframe
     df = pd.DataFrame({'Tweets': [tweet.full_text for tweet in posts],
                    'StatusID': [tweet.id_str for tweet in posts],
                    'UserID': [tweet.user.screen_name for tweet in posts],
@@ -67,9 +72,11 @@ def cleanText(text):
 
 # create function to predict and put output to dataframe
 def predict(t_input, posts):
+    # predict
     output_pd = pd.DataFrame(model.predict_proba(t_input))
     output_pd.columns = model.classes_
     output_pd["Predict"] = model.predict(t_input)
+    # put others data into dataframe
     output_pd["Tweets"] = posts.Tweets
     output_pd["Processed"] = posts.processed
     output_pd["wc"] = posts.wc
@@ -81,10 +88,6 @@ def predict(t_input, posts):
     output_pd = output_pd.rename(columns={"neg":"Negative","neu":"Neutral","pos":"Positive"})
     return output_pd.values.tolist()
 
-model = joblib.load('frozen_model/sent_model.pkl')
-scaler_fit = joblib.load('frozen_model/scaler_model.pkl')
-tfidf_fit = joblib.load('frozen_model/tfidf_model.pkl')
-
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -92,19 +95,20 @@ def home():
 @app.route('/predictbyhashtag', methods=['GET','POST'])
 def predictbyhashtag():
     if request.method=='POST':
+        # get hashtag from text box
         hashtag = request.form['hashtag']
+        # get tweets with hashtag
         posts = getTweet(hashtag)
         if posts.shape[0] != 0 :
+            # words processing
             posts["processed"] = posts.Tweets.map(lambda x: "|".join(process_thai(x)))
             posts["wc"] = posts.processed.map(lambda x: len(x.split("|")))
             posts["uwc"] = posts.processed.map(lambda x: len(set(x.split("|"))))
-
             tf_input = tfidf_fit.transform(posts["Tweets"])
-
             num_input = scaler_fit.transform(posts[["wc","uwc"]].astype(float))
-
             t_input =  np.concatenate([num_input,tf_input.toarray()],axis=1)
 
+            # predict and convert output to list
             result = predict(t_input, posts)
             return render_template('output.html' , output_result=result , length = len(result))
         else : 
@@ -114,19 +118,20 @@ def predictbyhashtag():
 @app.route('/predictbyuserID', methods=['GET','POST'])
 def predictbyid():
     if request.method=='POST':
+        # get user id from text box
         user = request.form['userID']
+        # get tweets with user id
         posts = getTweetFromUser(user)
         if posts.shape[0] != 0 :
+            # words processing
             posts["processed"] = posts.Tweets.map(lambda x: "|".join(process_thai(x)))
             posts["wc"] = posts.processed.map(lambda x: len(x.split("|")))
             posts["uwc"] = posts.processed.map(lambda x: len(set(x.split("|"))))
-
             tf_input = tfidf_fit.transform(posts["Tweets"])
-
             num_input = scaler_fit.transform(posts[["wc","uwc"]].astype(float))
-
             t_input =  np.concatenate([num_input,tf_input.toarray()],axis=1)
 
+            # predict and convert output to list
             result = predict(t_input, posts)
             return render_template('output.html' , output_result=result , length = len(result))
         else : 
@@ -138,23 +143,26 @@ def predictbyid():
 def predictbysentence():
     result = ""
     if request.method=='POST':
+        # get sentense from text box
         text = request.form['texts']
+        # clean text
         texts = cleanText(text)
-        test_input = pd.DataFrame({"texts":[texts]})
-        if test_input.shape[0] != 0 :
-            test_input["processed"] = test_input.texts.map(lambda x: "|".join(process_thai(x)))
-            test_input["wc"] = test_input.processed.map(lambda x: len(x.split("|")))
-            test_input["uwc"] = test_input.processed.map(lambda x: len(set(x.split("|"))))
-
-            tf_input = tfidf_fit.transform(test_input["texts"])
-
-            num_input = scaler_fit.transform(test_input[["wc","uwc"]].astype(float))
-
+        # create and put data into dataframe
+        posts = pd.DataFrame({"texts":[texts]})
+        if posts.shape[0] != 0 :
+            # words processing
+            posts["processed"] = posts.texts.map(lambda x: "|".join(process_thai(x)))
+            posts["wc"] = posts.processed.map(lambda x: len(x.split("|")))
+            posts["uwc"] = posts.processed.map(lambda x: len(set(x.split("|"))))
+            tf_input = tfidf_fit.transform(posts["texts"])
+            num_input = scaler_fit.transform(posts[["wc","uwc"]].astype(float))
             t_input =  np.concatenate([num_input,tf_input.toarray()],axis=1)
 
+            # predict
             output_pd = pd.DataFrame(model.predict_proba(t_input))
             output_pd.columns = model.classes_
             output = model.predict(t_input)
+            # replace output with word
             if output == "neg":
                 result = "Negative"
             elif output == "pos":
