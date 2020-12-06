@@ -165,14 +165,6 @@ def predictbysentence():
                 result = "Positive"
             elif output == "neu":
                 result = "Neutral"
-            # output_pd["Prediction"] = model.predict(t_input)
-            # output_pd["Texts"] = test_input.texts
-            # output_pd["Processed"] = test_input.processed
-            # output_pd["Wc"] = test_input.wc
-            # output_pd["Uwc"] = test_input.uwc
-            # output_pd['Predict'] = output_pd['Predict'].replace({'neg':'Negative', 'pos':'Positive','neu':'Neutral'})
-            # output_pd = output_pd.rename(columns={"neg":"Negative","neu":"Neutral","pos":"Positive"})
-            # result = output_pd
             return render_template('outputBySentence.html' , result=result)
         else : 
             return render_template('outputBySentence.html' , length = 0)
