@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitter Thai Sentiment Analysis</title>
-    <ul class="nav justify-content-center nav-pills nav-justified">
-        <li class="nav-item">
-            <a class="nav-link" href="/predictbyhashtag">Predict By Hashtag</a>
+    <ul class="nav justify-content-center nav-pills nav-justifiedb navbar-setup">
+        <li class="nav-item navbar-item">
+            <a class="nav-link navbar-font" href="/predictbyhashtag" aria-selected="true">Predict By Hashtag</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/predictbyuserID">Predict By UserID</a>
+        <li class="nav-item navbar-item">
+            <a class="nav-link navbar-font" href="/predictbyuserID">Predict By UserID</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/predictbysentence">Predict By Sentence</a>
+        <li class="nav-item navbar-item">
+            <a class="nav-link navbar-font" href="/predictbysentence">Predict By Sentence</a>
         </li>
     </ul>
 </head>
@@ -33,7 +33,8 @@
                 {% endblock %}
             </div>
         </div>
-        <a class="btn btn-primary twitter-clr" href="/" style="color: white; margin-left: 15px; margin-bottom: 15px;">Back to
+        <a class="btn btn-primary twitter-clr" href="/"
+            style="color: white; margin-left: 15px; margin-bottom: 15px;">Back to
             home</a>
     </div>
 
@@ -47,6 +48,22 @@
     justify-content: center;
     align-items: center;
 } */
+    .navbar-setup {
+        background-color: #1da1f2;
+    }
+
+    .navbar-font {
+        color: white;
+    }
+
+    .navbar-item {
+        margin: 0.5% 10%;
+    }
+
+    .navbar-item:target {
+        background-color: white;
+        color: #1da1f2;
+    }
 
     .twitter-clr {
         color: white;
