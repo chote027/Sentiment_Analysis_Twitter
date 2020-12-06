@@ -90,10 +90,12 @@ def predict(t_input, posts):
     output_pd = output_pd.rename(columns={"neg":"Negative","neu":"Neutral","pos":"Positive"})
     return output_pd.values.tolist()
 
+@freezer.register_generator
 @app.route('/')
 def home():
     return render_template('home.html')
 
+@freezer.register_generator
 @app.route('/predictbyhashtag', methods=['GET','POST'])
 def predictbyhashtag():
     if request.method=='POST':
@@ -117,6 +119,7 @@ def predictbyhashtag():
             return render_template('output.html' , length = 0)
     return render_template('predictByHashtag.html')
 
+@freezer.register_generator
 @app.route('/predictbyuserID', methods=['GET','POST'])
 def predictbyid():
     if request.method=='POST':
@@ -140,7 +143,7 @@ def predictbyid():
             return render_template('output.html' , length = 0)
     return render_template('predictById.html')
 
-    
+@freezer.register_generator    
 @app.route('/predictbysentence', methods=['GET','POST'])
 def predictbysentence():
     result = ""
