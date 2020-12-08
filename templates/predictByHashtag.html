@@ -1,16 +1,18 @@
 {% extends "home.html" %}
 {% block content %}
-<form style="height: 38px; width: 50rem;" action="{{ url_for('predictbyhashtag') }}" method="POST"
-    enctype="application/x-www-form-urlencoded;charset=TIS-620">
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text twitter-clr">Twitter Hashtag ( #__ )</span>
+<div class="input-group form-size" style="justify-content: center;">
+    <form style="height: 38px; width: 50rem;" action="{{ url_for('predictbyhashtag') }}" method="POST"
+        enctype="application/x-www-form-urlencoded;charset=TIS-620">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text twitter-clr">Twitter Hashtag ( #__ )</span>
+            </div>
+            <input type="text" class="form-control" style="border-radius: 0%; width: 60%;" name="hashtag"
+                placeholder="Example : #Lisa">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
+            </div>
         </div>
-        <input type="text" class="form-control" style="border-radius: 0%; width: 60%;" name="hashtag"
-            placeholder="Example : #Lisa">
-        <div class="input-group-append">
-            <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 {% endblock %}

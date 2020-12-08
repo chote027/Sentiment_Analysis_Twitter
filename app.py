@@ -168,7 +168,7 @@ def predictbysentence():
                 result = "Positive"
             elif output == "neu":
                 result = "Neutral"
-            return render_template('outputBySentence.html' , result=result)
+            return render_template('outputBySentence.html' , result=result , text=texts)
         else : 
             return render_template('outputBySentence.html' , length = 0)
     return render_template('predictBySentence.html')
