@@ -1,11 +1,12 @@
 {% extends "home.html" %}
 {% block content %}
-<div class="input-group-prepend">
-</div>
-<form style="height: 38px;" action="{{ url_for('predictbysentence') }}" method="POST"
+<form style="height: 38px; width: 50rem;" action="{{ url_for('predictbysentence') }}" method="POST"
     enctype="application/x-www-form-urlencoded;charset=TIS-620">
-    <div class="input-group mb-3 col-auto">
-        <input type="text" class="form-control" style="width: 30rem; border-radius: 0%;" name="texts"
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text twitter-clr">Sentence or word</span>
+        </div>
+        <input type="text" class="form-control" style="border-radius: 0%; width: 60%;" name="hashtag"
             placeholder="Example : สวัสดี">
         <div class="input-group-append">
             <button type="submit" class="btn btn-primary twitter-clr" type="button">Submit</button>
