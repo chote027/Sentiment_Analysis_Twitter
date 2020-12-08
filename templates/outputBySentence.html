@@ -1,6 +1,16 @@
 {% extends "home.html" %}
 {% block content %}
+{%if result=="Neutral" %}
 <div class="p-3 mb-2 bg-primary text-white">
     <h1>{{result}}</h1>
 </div>
+{%elif result=="Positive" %}
+<div class="p-3 mb-2 bg-success text-white">
+    <h1>{{result}}</h1>
+</div>
+{%elif result=="Negative" %}
+<div class="p-3 mb-2 bg-danger text-white">
+    <h1>{{result}}</h1>
+</div>
+{% endif %}
 {% endblock %}
